@@ -10,12 +10,16 @@ import "./Palette.css";
 
 function Palette(props) {
   const [lvl, setLvl] = useState(500);
+  const [format, setFormat] = useState("hex");
   const colorBoxes = props.palette.colors[lvl].map((color, index) => (
-    <ColorBox background={color.hex} name={color.name} />
+    <ColorBox background={color[format]} name={color.name} />
   ))
+  function changeFormat(val){
+    setFormat(val);
+  }
   return (
     <div className='Palette'>
-      <Navbar level={lvl} changeLevel={setLvl} />
+      <Navbar level={lvl} changeLevel={setLvl} handleChange={changeFormat} />
       {/* <div className='slider'>
         <Slider defaultValue={lvl} min={100} max={900} step={100} onChange={(level) => {setLvl(level)}} />
       </div> */}
