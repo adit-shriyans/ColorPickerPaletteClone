@@ -1,4 +1,5 @@
 import {React, useState} from 'react';
+import {Link} from "react-router-dom";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Snackbar from '@mui/material/Snackbar';
@@ -7,7 +8,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./Navbar.css";
-// import { IconButton } from '@mui/material';
 
 function Navbar(props) {
   const [format, setFormat] = useState("hex");
@@ -20,7 +20,7 @@ function Navbar(props) {
   return (
     <header className='Navbar'>
         <div className='logo'>
-            <a href="#">reactcolorpicker</a>
+            <Link to="/">reactcolorpicker</Link>
         </div>
         <div className='slider-container'>
             <span>Level: {props.level/100}</span>
