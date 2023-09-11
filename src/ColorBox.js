@@ -7,7 +7,7 @@ function ColorBox(props) {
   return (
     <CopyToClipboard text={props.background} onCopy={() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
+      setTimeout(() => setCopied(false), 1500);
       }}>
       <div style={{background: props.background}} className='ColorBox'>
           <div style={{background: props.background}} className={`copy-overlay ${copied && "show"}`} />

@@ -13,8 +13,6 @@ export function RenderPalette() {
 }
 
 function App() {
-  // const params = useParams();
-  // console.log(params);
   return (
     <Routes>
       <Route path="/" Component={() => <PaletteList palettes={seedColors} />} />

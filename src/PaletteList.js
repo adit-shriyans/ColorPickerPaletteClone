@@ -1,14 +1,12 @@
 import React from 'react';
 import MiniPalette from './MiniPalette';
 import "./PaletteList.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PaletteList(props) {
 
   const navigate = useNavigate();
   function goToPalette(id) {
-    console.log("clicked");
-    console.log(id);
     navigate(`/palette/${id}`);
   }
 
