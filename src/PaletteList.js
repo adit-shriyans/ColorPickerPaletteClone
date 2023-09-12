@@ -9,7 +9,7 @@ function PaletteList(props) {
   function goToPalette(id) {
     navigate(`/palette/${id}`);
   }
-
+  
   return (
     <div className='root'>
       <div className='container'>

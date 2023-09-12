@@ -22,12 +22,12 @@ function Navbar(props) {
         <div className='logo'>
             <Link to="/">reactcolorpicker</Link>
         </div>
-        <div className='slider-container'>
+        {props.sliderOn && <div className='slider-container'>
             <span>Level: {props.level/100}</span>
             <div className='slider'>
                 <Slider defaultValue={props.level} min={100} max={900} step={100} onChange={(level) => {props.changeLevel(level)}} />
             </div>
-        </div>
+        </div>}
         <div className='select-container'>
           <Select value={format} onChange={handleChange}>
             <MenuItem value="hex">HEX - #ffffff</MenuItem>
