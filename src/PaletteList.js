@@ -1,7 +1,8 @@
 import React from 'react';
 import MiniPalette from './MiniPalette';
 import "./PaletteList.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import CreateIcon from '@mui/icons-material/Create';
 
 function PaletteList(props) {
 
@@ -15,6 +16,7 @@ function PaletteList(props) {
       <div className='container'>
         <nav className='nav'>
           <h1>Palette List</h1>
+          <Link to="/palette/new"><CreateIcon sx={{ fontSize: 24 }} />Create Palette</Link> 
         </nav>
         <div className='palettes'>
           {props.palettes.map(palette => (

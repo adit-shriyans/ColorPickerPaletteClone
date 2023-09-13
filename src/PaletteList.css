@@ -23,6 +23,12 @@ body a {
     width: 100%;
     justify-content: space-between;
     color: white;
+    align-items: center;
+}
+
+.nav a {
+    color: white;
+    font-size: 1.4rem;
 }
 
 .palettes {
