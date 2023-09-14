@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DraggableColorBox from './DraggableColorBox';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,8 +14,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import {ChromePicker} from "react-color";
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import "./NewPaletteForm.css";
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -65,17 +66,46 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [currentColor, setCurrentColor] = React.useState("teal");
-  const [colors, setColors] = React.useState(["purple", "#e15f74"]);
+  const [colors, setColors] = React.useState([]);
+  const [newName, setNewName] = React.useState("");
+  const [newPaletteName, setNewPaletteName] = React.useState("");
+  const navigate = useNavigate();
 
+  React.useEffect(() => {
+    ValidatorForm.addValidationRule('isColorNameUnique', (value) => {
+      return colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase());
+    });
+  }, [newName]);
+
+  React.useEffect(() => {
+    ValidatorForm.addValidationRule('isColorUnique', () => {
+      return colors.every(({ color }) => color !== currentColor);
+    });
+  }, [newName, currentColor]);
+
+  React.useEffect(() => {
+    ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
+      return props.palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase());
+    });
+  }, [newPaletteName]);
+
+  const addNewColor = () => {
+    if (!newName) return;
+    const newColor = {
+      color: currentColor,
+      name: newName
+    };
+    setColors([...colors, newColor]);
+    setNewName("");
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -85,10 +115,25 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const savePalette = () => {
+    // let newPaletteName = "New Test Palette";
+    const newPalette = {
+      paletteName: newPaletteName,
+      colors: colors,
+      id:newPaletteName.toLowerCase().replace(/ /g, "-"),
+    };
+    props.savePalette(newPalette);
+    navigate("/");
+  }
+
+  function removeColor(colorName) {
+    setColors(colors.filter(color => color.name !== colorName))
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color='default'>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -102,6 +147,16 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap component="div">
             Persistent drawer
           </Typography>
+          <ValidatorForm onSubmit={savePalette}>
+            <TextValidator 
+              value={newPaletteName} 
+              label="Palette Name"
+              onChange={(evt) => setNewPaletteName(evt.target.value)}
+              validators={["required", "isPaletteNameUnique"]}
+              errorMessages={["this field is required", "palette name already taken"]}
+            />
+            <Button type='submit' variant='contained' color='primary'>Save Palette</Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -124,26 +179,36 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <Typography variant='h4' >
-        Choose Your Color
-      </Typography>
-      <div className='color-buttons'>
-        <Button variant='contained' color='error'>Clear Palette</Button>
-        <Button variant='contained' color='primary'>Random Color</Button>
-      </div>
-      <List>
-        <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} />
-      </List>
-      <TextField>Enter Color Name</TextField>
-      <Button variant='contained' color='primary' style={{backgroundColor: currentColor}} onClick={() => setColors([...colors, currentColor])} >Add Color</Button>
+          Choose Your Color
+        </Typography>
+        <div className='color-buttons'>
+          <Button variant='contained' color='error'>Clear Palette</Button>
+          <Button variant='contained' color='primary'>Random Color</Button>
+        </div>
+        <List>
+          <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} />
+        </List>
+        <ValidatorForm onSubmit={addNewColor}>
+          <TextValidator 
+            placeholder='Enter Color Name'
+            onChange={(evt) => setNewName(evt.target.value)}
+            validators={['required', 'isColorNameUnique', 'isColorUnique']}
+            errorMessages={["this field is required", "Color name must be unique", "Color already used"]}
+            value={newName}
+          />
+          <Button variant='contained' type='submit' color='primary' style={{backgroundColor: currentColor}}>
+            Add Color
+          </Button>
+        </ValidatorForm>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
         <div>
-            <ul className='color-boxes'>
-                {colors.map(color => (
-                    <DraggableColorBox color={color} />
-                ))}
-            </ul>
+          <ul className='color-boxes'>
+            {colors.map((color) => (
+              <DraggableColorBox key={color.name} color={color.color} name={color.name} removeColor={() => removeColor(color.name)} />
+            ))}
+          </ul>
         </div>
       </Main>
     </Box>

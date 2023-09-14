@@ -5,30 +5,38 @@ import {Route, Routes, useParams} from "react-router-dom";
 import seedColors from "./seedColors";
 import SingleColorPalette from "./SingleColorPalette";
 import { generatePalette } from "./codeHelper";
+import { useState } from "react";
 
-export function RenderPalette() {
+export function RenderPalette(props) {
   function findPalette(id) {
-    return seedColors.find(function(palette) {return palette.id === id})
+    return props.palettes.find(function(palette) {return palette.id === id})
   }
   let {id} = useParams();
   return <Palette palette={generatePalette(findPalette(id))} />
 }
 
-export function RenderSingleColorPalette() {
+export function RenderSingleColorPalette(props) {
   function findPalette(id) {
-    return seedColors.find(function(palette) {return palette.id === id})
+    return props.palettes.find(function(palette) {return palette.id === id})
   }
   let {colorId, paletteId} = useParams();
   return <SingleColorPalette colorId={colorId} palette={generatePalette(findPalette(paletteId))} />
 }
 
 function App() {
+  const [palettes, setPalettes] = useState(seedColors);
+
+  function savePalette(newPalette) {
+    console.log(newPalette);
+    setPalettes([...palettes, newPalette]);
+  }
+
   return (
     <Routes>
-      <Route path="/" Component={() => <PaletteList palettes={seedColors} />} />
-      <Route path="/palette/new" Component={() => <NewPaletteForm />} />
-      <Route path="/palette/:id" Component={() => <RenderPalette />} />
-      <Route path="/palette/:paletteId/:colorId" Component={() => <RenderSingleColorPalette />}></Route>
+      <Route path="/" Component={() => <PaletteList palettes={palettes} />} />
+      <Route path="/palette/new" Component={() => <NewPaletteForm savePalette={savePalette} palettes={palettes} />} />
+      <Route path="/palette/:id" Component={() => <RenderPalette palettes={palettes} />} />
+      <Route path="/palette/:paletteId/:colorId" Component={() => <RenderSingleColorPalette palettes={palettes} />}></Route>
       <Route path="/*" Component={() => <h1>Palette not found :(</h1>} />
     </Routes>
   );
