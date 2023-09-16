@@ -11,9 +11,26 @@
 }
 
 .color-buttons {
-    width: 400px;
+    width: 100%;
 }
 
 .color-boxes {
     height: calc(100vh - 64px);
+}
+
+.drawerContainer {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.btn--clr {
+    width: 50%;
+}
+
+.btn--rnd {
+    width: 50%;
 }

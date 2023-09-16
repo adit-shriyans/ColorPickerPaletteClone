@@ -9,7 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import "./NewPaletteForm.css";
+// import "./NewPaletteForm.css";
+import "./NavPaletteForm.css";
 
 const drawerWidth = 400;
 
@@ -56,9 +57,9 @@ function NavPaletteForm(props) {
       }, [newPaletteName]);
 
   return (
-    <div>
+    <div className='NavPaletteForm'>
       <CssBaseline />
-      <AppBar position="fixed" open={open} color='default'>
+      <AppBar position="fixed" open={open} color='default' className='navAppBar'>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -70,8 +71,10 @@ function NavPaletteForm(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Create your Palette
           </Typography>
+        </Toolbar>
+        <div className='navBtns'>
           <ValidatorForm onSubmit={savePalette}>
             <TextValidator 
               value={newPaletteName} 
@@ -81,11 +84,11 @@ function NavPaletteForm(props) {
               errorMessages={["this field is required", "palette name already taken"]}
             />
             <Button type='submit' variant='contained' color='primary'>Save Palette</Button>
+            </ValidatorForm>
             <Link to='/'>
               <Button variant='contained' color='secondary'>Go Back</Button>
             </Link>
-          </ValidatorForm>
-        </Toolbar>
+        </div>
       </AppBar>
     </div>
   )

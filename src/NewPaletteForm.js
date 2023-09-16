@@ -2,17 +2,16 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Button from '@mui/material/Button';
-import {ChromePicker} from "react-color";
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-material-ui-form-validator';
 import "./NewPaletteForm.css";
 import DraggableColorList from './DraggableColorList';
 import NavPaletteForm from './NavPaletteForm';
+import ColorPickerForm from './ColorPickerForm';
 
 const drawerWidth = 400;
 
@@ -45,7 +44,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
   const [open, setOpen] = React.useState(true);
-  const [currentColor, setCurrentColor] = React.useState("teal");
   const [colors, setColors] = React.useState(props.palettes[0].colors);
   const [newName, setNewName] = React.useState("");
   const isPaletteFull = colors.length >= props.maxColors;
@@ -55,22 +53,6 @@ export default function PersistentDrawerLeft(props) {
       return colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase());
     });
   }, [newName]);
-
-  React.useEffect(() => {
-    ValidatorForm.addValidationRule('isColorUnique', () => {
-      return colors.every(({ color }) => color !== currentColor);
-    });
-  }, [newName, currentColor]);
-
-  const addNewColor = () => {
-    if (!newName) return;
-    const newColor = {
-      color: currentColor,
-      name: newName
-    };
-    setColors([...colors, newColor]);
-    setNewName("");
-  }
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -92,6 +74,8 @@ export default function PersistentDrawerLeft(props) {
       <Drawer
         sx={{
           width: drawerWidth,
+          display: 'flex',
+          alignItems: 'center',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
@@ -108,38 +92,19 @@ export default function PersistentDrawerLeft(props) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Typography variant='h4' >
+        <div className='drawerContainer'>
+        <Typography variant='h4' gutterBottom>
           Choose Your Color
         </Typography>
         <div className='color-buttons'>
-          <Button variant='contained' color='error' onClick={() => {setColors([])}} >Clear Palette</Button>
-          <Button variant='contained' color='primary' onClick={addRandomColor} disabled={isPaletteFull} >Random Color</Button>
+          <Button variant='contained' className='btn--clr' color='error' onClick={() => {setColors([])}} >Clear Palette</Button>
+          <Button variant='contained' className='btn--rnd' color='primary' onClick={addRandomColor} disabled={isPaletteFull} >Random Color</Button>
         </div>
-        <List>
-          <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} />
-        </List>
-        <ValidatorForm onSubmit={addNewColor}>
-          <TextValidator 
-            placeholder='Enter Color Name'
-            onChange={(evt) => setNewName(evt.target.value)}
-            validators={['required', 'isColorNameUnique', 'isColorUnique']}
-            errorMessages={["this field is required", "Color name must be unique", "Color already used"]}
-            value={newName}
-          />
-          <Button variant='contained' type='submit' color='primary' disabled={isPaletteFull} style={{backgroundColor: isPaletteFull?'grey':currentColor}}>
-            {isPaletteFull?'Palette full':'Add Color'}
-          </Button>
-        </ValidatorForm>
+        <ColorPickerForm isPaletteFull={isPaletteFull} colors={colors} setColors={setColors} newName={newName} setNewName={setNewName} />
+        </div>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {/* <div>
-          <ul className='color-boxes'>
-            {colors.map((color) => (
-              <DraggableColorBox key={color.name} color={color.color} name={color.name} removeColor={() => removeColor(color.name)} />
-            ))}
-          </ul>
-        </div> */}
         <div>
           <DraggableColorList colors={colors} removeColor={removeColor} />
         </div>
