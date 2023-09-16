@@ -27,7 +27,6 @@ function App() {
   const [palettes, setPalettes] = useState(seedColors);
 
   function savePalette(newPalette) {
-    console.log(newPalette);
     setPalettes([...palettes, newPalette]);
   }
 
