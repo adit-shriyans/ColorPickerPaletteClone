@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 // import "./NewPaletteForm.css";
 import "./NavPaletteForm.css";
+import PaletteMetaForm from './PaletteMetaForm';
 
 const drawerWidth = 400;
 
@@ -34,27 +35,28 @@ const AppBar = styled(MuiAppBar, {
 function NavPaletteForm(props) {
     const {open, setOpen, colors} = props;
     const [newPaletteName, setNewPaletteName] = React.useState("");
+    const [showForm, setShowForm] = React.useState(false);
     const navigate = useNavigate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
     };
 
-    const savePalette = () => {
-        const newPalette = {
-          paletteName: newPaletteName,
-          colors: colors,
-          id:newPaletteName.toLowerCase().replace(/ /g, "-"),
-        };
-        props.savePalette(newPalette);
-        navigate("/");
-    }
+    // const savePalette = () => {
+    //     const newPalette = {
+    //       paletteName: newPaletteName,
+    //       colors: colors,
+    //       id:newPaletteName.toLowerCase().replace(/ /g, "-"),
+    //     };
+    //     props.savePalette(newPalette);
+    //     navigate("/");
+    // }
 
-    React.useEffect(() => {
-        ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
-          return props.palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase());
-        });
-      }, [newPaletteName]);
+    // React.useEffect(() => {
+    //     ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
+    //       return props.palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase());
+    //     });
+    //   }, [newPaletteName]);
 
   return (
     <div className='NavPaletteForm'>
@@ -75,7 +77,7 @@ function NavPaletteForm(props) {
           </Typography>
         </Toolbar>
         <div className='navBtns'>
-          <ValidatorForm onSubmit={savePalette}>
+          {/* <ValidatorForm onSubmit={savePalette}>
             <TextValidator 
               value={newPaletteName} 
               label="Palette Name"
@@ -84,12 +86,17 @@ function NavPaletteForm(props) {
               errorMessages={["this field is required", "palette name already taken"]}
             />
             <Button type='submit' variant='contained' color='primary'>Save Palette</Button>
-            </ValidatorForm>
+            </ValidatorForm> */}
+            {/* <PaletteMetaForm palettes={props.palettes} colors={colors} savePalette={props.savePalette} /> */}
             <Link to='/'>
-              <Button variant='contained' color='secondary'>Go Back</Button>
+              <Button variant='contained' color='secondary' className='btn--nav'>Go Back</Button>
             </Link>
+            <Button variant="contained" className='btn--nav' onClick={() => setShowForm(true)}>
+              Save Palette
+            </Button>
         </div>
       </AppBar>
+      {showForm && <PaletteMetaForm palettes={props.palettes} colors={colors} savePalette={props.savePalette} hideForm={() => setShowForm(false)} />}
     </div>
   )
 }
