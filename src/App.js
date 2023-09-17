@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import Palette from "./Palette";
 import PaletteList from "./PaletteList";
 import NewPaletteForm from "./NewPaletteForm";
-import {Route, Routes, useParams} from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import seedColors from "./seedColors";
 import SingleColorPalette from "./SingleColorPalette";
 import { generatePalette } from "./codeHelper";
@@ -9,25 +10,40 @@ import { useState } from "react";
 
 export function RenderPalette(props) {
   function findPalette(id) {
-    return props.palettes.find(function(palette) {return palette.id === id})
+    return props.palettes.find(function (palette) { return palette.id === id })
   }
-  let {id} = useParams();
+  let { id } = useParams();
   return <Palette palette={generatePalette(findPalette(id))} />
 }
 
 export function RenderSingleColorPalette(props) {
   function findPalette(id) {
-    return props.palettes.find(function(palette) {return palette.id === id})
+    return props.palettes.find(function (palette) { return palette.id === id })
   }
-  let {colorId, paletteId} = useParams();
+  let { colorId, paletteId } = useParams();
   return <SingleColorPalette colorId={colorId} palette={generatePalette(findPalette(paletteId))} />
 }
 
 function App() {
-  const [palettes, setPalettes] = useState(seedColors);
+  // const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+  // const [palettes, setPalettes] = useState(savedPalettes || seedColors);
+  const [palettes, setPalettes] = useState(() => {
+    const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+    return savedPalettes || seedColors;
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem("palettes", JSON.stringify(palettes));
+  }, [palettes]);
 
   function savePalette(newPalette) {
+    console.log("OKOK");
     setPalettes([...palettes, newPalette]);
+    syncLocalStorage();
+  }
+
+  function syncLocalStorage() {
+    window.localStorage.setItem("palettes", JSON.stringify(palettes))
   }
 
   return (

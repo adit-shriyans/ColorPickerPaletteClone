@@ -14,6 +14,10 @@
     width: 100%;
 }
 
+.listContainer {
+    padding: 0;
+}
+
 .color-boxes {
     height: calc(100vh - 64px);
 }

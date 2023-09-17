@@ -18,6 +18,7 @@ const drawerWidth = 400;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
+    padding: 0,
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -103,7 +104,7 @@ export default function PersistentDrawerLeft(props) {
         <ColorPickerForm isPaletteFull={isPaletteFull} colors={colors} setColors={setColors} newName={newName} setNewName={setNewName} />
         </div>
       </Drawer>
-      <Main open={open}>
+      <Main open={open} className='listContainer'>
         <DrawerHeader />
         <div>
           <DraggableColorList colors={colors} removeColor={removeColor} />

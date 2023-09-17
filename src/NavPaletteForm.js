@@ -9,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-// import "./NewPaletteForm.css";
 import "./NavPaletteForm.css";
 import PaletteMetaForm from './PaletteMetaForm';
 
@@ -42,22 +41,6 @@ function NavPaletteForm(props) {
         setOpen(true);
     };
 
-    // const savePalette = () => {
-    //     const newPalette = {
-    //       paletteName: newPaletteName,
-    //       colors: colors,
-    //       id:newPaletteName.toLowerCase().replace(/ /g, "-"),
-    //     };
-    //     props.savePalette(newPalette);
-    //     navigate("/");
-    // }
-
-    // React.useEffect(() => {
-    //     ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
-    //       return props.palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase());
-    //     });
-    //   }, [newPaletteName]);
-
   return (
     <div className='NavPaletteForm'>
       <CssBaseline />
@@ -77,18 +60,7 @@ function NavPaletteForm(props) {
           </Typography>
         </Toolbar>
         <div className='navBtns'>
-          {/* <ValidatorForm onSubmit={savePalette}>
-            <TextValidator 
-              value={newPaletteName} 
-              label="Palette Name"
-              onChange={(evt) => setNewPaletteName(evt.target.value)}
-              validators={["required", "isPaletteNameUnique"]}
-              errorMessages={["this field is required", "palette name already taken"]}
-            />
-            <Button type='submit' variant='contained' color='primary'>Save Palette</Button>
-            </ValidatorForm> */}
-            {/* <PaletteMetaForm palettes={props.palettes} colors={colors} savePalette={props.savePalette} /> */}
-            <Link to='/'>
+          <Link to='/'>
               <Button variant='contained' color='secondary' className='btn--nav'>Go Back</Button>
             </Link>
             <Button variant="contained" className='btn--nav' onClick={() => setShowForm(true)}>
