@@ -5,10 +5,11 @@
     padding: 0.5rem;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
-.mini-root:hover {
-    cursor: pointer;
+.mini-root:hover svg {
+    opacity: 1;
 }
 
 .colors {
@@ -41,4 +42,22 @@
     margin: 0 auto;
     position: relative;
     margin-bottom: -4.5px;
+}
+
+.btn--dltMini {
+
+}
+
+.deleteIcon {
+    color: white;
+    background-color: #eb3d30;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 10px;
+    z-index: 10;
+    opacity: 0;
+    /* transition: all 0.3s ease-in-out; */
 }
