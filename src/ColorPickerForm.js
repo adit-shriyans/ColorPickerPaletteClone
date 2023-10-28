@@ -31,7 +31,7 @@ function ColorPickerForm(props) {
             <List>
                 <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} className='chromePicker' />
             </List>
-            <ValidatorForm onSubmit={addNewColor}>
+            <ValidatorForm onSubmit={addNewColor} instantValidate={false} >
                 <TextValidator
                     className='colorInput'
                     variant="filled"

@@ -25,12 +25,10 @@ export function RenderSingleColorPalette(props) {
 }
 
 function App() {
-  // const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
-  // const [palettes, setPalettes] = useState(savedPalettes || seedColors);
-  const [palettes, setPalettes] = useState(() => {
-    const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
-    return savedPalettes || seedColors;
-  });
+  const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+  const availablePalettes = savedPalettes.length!==0?savedPalettes:seedColors;
+  const [palettes, setPalettes] = useState(availablePalettes);
+  // const [palettes, setPalettes] = useState(seedColors);
 
   useEffect(() => {
     window.localStorage.setItem("palettes", JSON.stringify(palettes));
@@ -46,9 +44,14 @@ function App() {
     window.localStorage.setItem("palettes", JSON.stringify(palettes))
   }
 
+  function deletePalette(id) {
+    setPalettes(palettes.filter(p => p.id !== id));
+    syncLocalStorage();
+  }
+
   return (
     <Routes>
-      <Route path="/" Component={() => <PaletteList palettes={palettes} />} />
+      <Route path="/" Component={() => <PaletteList palettes={palettes} deletePalette={deletePalette} />} />
       <Route path="/palette/new" Component={() => <NewPaletteForm savePalette={savePalette} palettes={palettes} />} />
       <Route path="/palette/:id" Component={() => <RenderPalette palettes={palettes} />} />
       <Route path="/palette/:paletteId/:colorId" Component={() => <RenderSingleColorPalette palettes={palettes} />}></Route>

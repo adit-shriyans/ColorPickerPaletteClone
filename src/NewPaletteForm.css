@@ -1,3 +1,7 @@
+.NewPaletteForm {
+  overflow: hidden !important;
+}
+
 .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
     width: 400px;
 }

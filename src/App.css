@@ -1,10 +1,15 @@
 .App {
   text-align: center;
+  overflow: hidden !important;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.css-ttn1xo {
+  padding: 0 !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -1,4 +1,5 @@
 .DraggableColorBox {
+  overflow: hidden !important;
     width: 20%;
     height: 25%;
     margin: 0 auto;

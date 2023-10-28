@@ -1,6 +1,7 @@
 .Palette {
     height: 100vh;
     display: flex;
+  overflow: hidden !important;
     flex-direction: column;
 }
 

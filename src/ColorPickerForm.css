@@ -1,3 +1,7 @@
+.ColorPickerForm {
+  overflow: hidden !important;
+}
+
 .chromePicker {
     width: 100% !important;
     margin-top: 2rem;
