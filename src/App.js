@@ -31,11 +31,10 @@ function App() {
   // const [palettes, setPalettes] = useState(seedColors);
 
   useEffect(() => {
-    window.localStorage.setItem("palettes", JSON.stringify(palettes));
+    if(typeof window !== undefined) window.localStorage.setItem("palettes", JSON.stringify(palettes));
   }, [palettes]);
 
   function savePalette(newPalette) {
-    console.log("OKOK");
     setPalettes([...palettes, newPalette]);
     syncLocalStorage();
   }
@@ -55,7 +54,7 @@ function App() {
       <Route path="/palette/new" Component={() => <NewPaletteForm savePalette={savePalette} palettes={palettes} />} />
       <Route path="/palette/:id" Component={() => <RenderPalette palettes={palettes} />} />
       <Route path="/palette/:paletteId/:colorId" Component={() => <RenderSingleColorPalette palettes={palettes} />}></Route>
-      <Route path="/*" Component={() => <h1>Palette not found :(</h1>} />
+      <Route path="/*" Component={() => <h1>Palette not found</h1>} />
     </Routes>
   );
 }
