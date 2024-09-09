@@ -23,7 +23,9 @@ function ColorPickerForm(props) {
 
     React.useEffect(() => {
         ValidatorForm.addValidationRule('isColorUnique', () => {
-            if(!colors) return true;
+            console.log(colors);
+            
+            if(!colors) return false;
             return colors?.every(({ color }) => color !== currentColor);
         });
     }, [newName, currentColor]);
