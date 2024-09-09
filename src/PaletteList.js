@@ -44,7 +44,7 @@ function PaletteList(props) {
         </nav>
         {/* <div className='palettes'> */}
           <TransitionGroup className='palettes'>
-          {props.palettes.map(palette => (
+          {props.palettes?.map(palette => (
             <CSSTransition key={palette.id} classNames="fade" timeout={500}>
                 <MiniPalette {...palette} handleClick={() => goToPalette(palette.id)} deletePalette={(id) => {setOpenDeleteDialog(true);setDeletingId(id)}} key={palette.id} id={palette.id} />
             </CSSTransition>
