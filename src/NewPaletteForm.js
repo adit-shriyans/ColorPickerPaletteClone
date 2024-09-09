@@ -45,7 +45,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
   const [open, setOpen] = React.useState(true);
-  const [colors, setColors] = React.useState(props.palettes[0].colors);
+  const [colors, setColors] = React.useState(props.palettes?props.palettes[0].colors:'');
   const [newName, setNewName] = React.useState("");
   const isPaletteFull = colors.length >= props.maxColors;
 
