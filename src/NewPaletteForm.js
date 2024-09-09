@@ -47,7 +47,7 @@ export default function PersistentDrawerLeft(props) {
   const [open, setOpen] = React.useState(true);
   const [colors, setColors] = React.useState(props.palettes?props.palettes[0].colors:null);
   const [newName, setNewName] = React.useState("");
-  const isPaletteFull = colors.length >= props.maxColors;
+  const isPaletteFull = colors?.length >= props.maxColors;
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule('isColorNameUnique', (value) => {
