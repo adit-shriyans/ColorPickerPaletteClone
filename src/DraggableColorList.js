@@ -6,7 +6,7 @@ function DraggableColorList(props) {
   return (
     <div className='DraggableColorList' style={{height:"500px"}}>
         <ul>
-            {props.colors.map(color => (
+            {props.colors?.map(color => (
                 <DraggableColorBox 
                     key={color.name}
                     color={color.color}
