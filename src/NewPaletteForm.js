@@ -51,7 +51,7 @@ export default function PersistentDrawerLeft(props) {
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule('isColorNameUnique', (value) => {
-      return colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase());
+      return colors?.every(({ name }) => name.toLowerCase() !== value.toLowerCase());
     });
   }, [newName]);
 
@@ -60,16 +60,16 @@ export default function PersistentDrawerLeft(props) {
   };
 
   function removeColor(colorName) {
-    setColors(colors.filter(color => color.name !== colorName))
+    setColors(colors?.filter(color => color.name !== colorName))
   }
 
   const addRandomColor = () => {
-    const allColors = props.palettes.map(palette => palette.colors).flat();
-    let randomColor = allColors[Math.floor(Math.random()*allColors.length)];
+    const allColors = props.palettes?.map(palette => palette.colors).flat();
+    let randomColor = allColors[Math.floor(Math.random()*allColors?.length)];
     let isDuplicate = true;
     while(isDuplicate){
-      randomColor = allColors[Math.floor(Math.random()*allColors.length)];
-      isDuplicate = colors.some(color => color.name === randomColor.name)
+      randomColor = allColors[Math.floor(Math.random()*allColors?.length)];
+      isDuplicate = colors?.some(color => color.name === randomColor.name)
     }
     setColors([...colors, randomColor]);
   }
