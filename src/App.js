@@ -26,7 +26,7 @@ export function RenderSingleColorPalette(props) {
 
 function App() {
   const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
-  const availablePalettes = savedPalettes.length!==0?savedPalettes:seedColors;
+  const availablePalettes = savedPalettes?.length!==0?savedPalettes:seedColors;
   const [palettes, setPalettes] = useState(availablePalettes);
   // const [palettes, setPalettes] = useState(seedColors);
 
