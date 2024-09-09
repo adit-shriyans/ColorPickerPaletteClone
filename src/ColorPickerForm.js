@@ -25,7 +25,7 @@ function ColorPickerForm(props) {
         ValidatorForm.addValidationRule('isColorUnique', () => {
             if(!colors) {
                 console.log(colors);
-                return false;
+                return true;
             }
             return colors?.every(({ color }) => color !== currentColor);
         });
