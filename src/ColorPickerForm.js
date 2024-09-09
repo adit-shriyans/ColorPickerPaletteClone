@@ -23,13 +23,13 @@ function ColorPickerForm(props) {
 
     React.useEffect(() => {
         ValidatorForm.addValidationRule('isColorUnique', () => {
-            return colors.every(({ color }) => color !== currentColor);
+            return colors?.every(({ color }) => color !== currentColor);
         });
     }, [newName, currentColor]);
     return (
         <div>
             <List>
-                <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} className='chromePicker' />
+                <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor?.hex)} className='chromePicker' />
             </List>
             <ValidatorForm onSubmit={addNewColor} instantValidate={false} >
                 <TextValidator
