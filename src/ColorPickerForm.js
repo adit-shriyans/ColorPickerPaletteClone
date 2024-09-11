@@ -28,7 +28,7 @@ function ColorPickerForm(props) {
         });
         ValidatorForm.addValidationRule('isColorNameValid', () => {
             if(!colors) return true;
-            return colors?.every(({ name }) => {console.log(color); return name.toLowerCase() !== newName.toLowerCase()});
+            return colors?.every(({ name }) => {console.log(name); return name.toLowerCase() !== newName.toLowerCase()});
         });
     }, [newName, currentColor]);
     return (
