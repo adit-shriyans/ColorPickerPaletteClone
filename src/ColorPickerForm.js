@@ -24,13 +24,14 @@ function ColorPickerForm(props) {
     React.useEffect(() => {
         ValidatorForm.addValidationRule('isColorUnique', () => {
             if(!colors) return true;
-            return colors?.every(({ color }) => {console.log(color); return color !== currentColor});
+            return colors?.every(({ color }) => color !== currentColor);
         });
-        ValidatorForm.addValidationRule('isColorNameValid', () => {
+        ValidatorForm.addValidationRule('isColorNameUnique', () => {
             if(!colors) return true;
             return colors?.every(({ name }) => {console.log(name); return name.toLowerCase() !== newName.toLowerCase()});
         });
     }, [newName, currentColor]);
+
     return (
         <div>
             <List>
