@@ -6,7 +6,6 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 // import "./NewPaletteForm.css";
 import "./ColorPickerForm.css";
 
-
 function ColorPickerForm(props) {
     const [currentColor, setCurrentColor] = React.useState("teal");
 
@@ -18,24 +17,36 @@ function ColorPickerForm(props) {
         };
         setColors([...colors, newColor]);
         setNewName("");
-    }
+    };
+
     const { isPaletteFull, colors, setColors, newName, setNewName } = props;
 
     React.useEffect(() => {
+        // Custom validation for color uniqueness
         ValidatorForm.addValidationRule('isColorUnique', () => {
-            if(!colors) return true;
-            return colors?.every(({ color }) => color !== currentColor);
+            return colors.every(({ color }) => color !== currentColor);
         });
+
+        // Custom validation for name uniqueness
         ValidatorForm.addValidationRule('isColorNameUnique', () => {
-            if(!colors) return true;
-            return colors?.every(({ name }) => {console.log(name); return name.toLowerCase() !== newName.toLowerCase()});
+            return colors.every(({ name }) => name.toLowerCase() !== newName.toLowerCase());
         });
-    }, [newName, currentColor]);
+
+        // Cleanup validation rules when component unmounts
+        return () => {
+            ValidatorForm.removeValidationRule('isColorUnique');
+            ValidatorForm.removeValidationRule('isColorNameUnique');
+        };
+    }, [newName, currentColor, colors]);
 
     return (
         <div>
             <List>
-                <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor?.hex)} className='chromePicker' />
+                <ChromePicker 
+                    color={currentColor} 
+                    onChangeComplete={(newColor) => setCurrentColor(newColor.hex)} 
+                    className='chromePicker' 
+                />
             </List>
             <ValidatorForm onSubmit={addNewColor} instantValidate={false} >
                 <TextValidator
@@ -45,10 +56,17 @@ function ColorPickerForm(props) {
                     placeholder='Color name'
                     onChange={(evt) => setNewName(evt.target.value)}
                     validators={['required', 'isColorNameUnique', 'isColorUnique']}
-                    errorMessages={["this field is required", "Color name must be unique", "Color already used"]}
+                    errorMessages={["This field is required", "Color name must be unique", "Color already used"]}
                     value={newName}
                 />
-                <Button variant='contained' type='submit' color='primary' disabled={isPaletteFull} style={{ backgroundColor: isPaletteFull ? 'grey' : currentColor }} className='btn--addClr' >
+                <Button 
+                    variant='contained' 
+                    type='submit' 
+                    color='primary' 
+                    disabled={isPaletteFull} 
+                    style={{ backgroundColor: isPaletteFull ? 'grey' : currentColor }} 
+                    className='btn--addClr'
+                >
                     {isPaletteFull ? 'Palette full' : 'Add Color'}
                 </Button>
             </ValidatorForm>
@@ -56,4 +74,4 @@ function ColorPickerForm(props) {
     )
 }
 
-export default ColorPickerForm
+export default ColorPickerForm;
